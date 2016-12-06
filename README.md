@@ -1,4 +1,4 @@
-# IoT-1D: EveryNote
+# IoT-1D
 50.001: Introduction to Information Systems and Design
 
 Group members:
