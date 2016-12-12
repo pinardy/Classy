@@ -20,26 +20,16 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
 
     <Button
-        android:text="Lesson 1: Text"
+        android:text="-"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/subject1"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="29dp"
-        android:id="@+id/learnObj1"
-        android:onClick="feedback" />
+        android:id="@+id/learnObj1" />
 
     <Button
-        android:text="Lesson 1: Text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:id="@+id/learnObj2"
-        android:layout_below="@+id/learnObj1"
-        android:layout_alignStart="@+id/learnObj1" />
-
-    <Button
-        android:text="Lesson 1: Text"
+        android:text="-"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
@@ -51,10 +41,38 @@
         android:text="refresh"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_toEndOf="@+id/learnObj3"
-        android:layout_marginBottom="25dp"
+        android:layout_marginBottom="23dp"
         android:id="@+id/refresh"
-        android:onClick="refresh" />
+        android:onClick="refresh"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:text="-"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:id="@+id/learnObj2"
+        android:layout_below="@+id/learnObj1"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:text="test"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/refresh"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="29dp"
+        android:id="@+id/testButton"
+        android:onClick="test" />
+
+    <Button
+        android:text="-"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="26dp"
+        android:id="@+id/learnObj4"
+        android:layout_below="@+id/learnObj3"
+        android:layout_alignStart="@+id/learnObj3" />
 
 </RelativeLayout>
