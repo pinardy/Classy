@@ -26,16 +26,11 @@ public class FeedbackActivity extends AppCompatActivity {
     Button learnObj2;
     Button learnObj3;
     Button learnObj4;
-    Firebase myFirebaseRef;
     FirebaseDatabase database;
     ArrayList<String> listOfLessons;
     Integer lessonIndex;
     Intent lesson;
 
-
-    public FeedbackActivity() {
-
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +54,10 @@ public class FeedbackActivity extends AppCompatActivity {
                 String child = dataSnapshot.getKey();
 
                 // Store the modules added by the prof app into an an ArrayList
-                listOfLessons.add(child);
+                if (!listOfLessons.contains(child)) {
+                    listOfLessons.add(child);
+//                    Toast.makeText(FeedbackActivity.this, child, Toast.LENGTH_SHORT).show();
+                }
 //                Toast.makeText(FeedbackActivity.this, child, Toast.LENGTH_SHORT).show();
             }
 
@@ -82,7 +80,6 @@ public class FeedbackActivity extends AppCompatActivity {
         });
     }
 
-    //TODO: Get values/strings from buttons into LearnPaceActivity for display
     public void feedback(View v) {
         try {
             startActivity(lesson);
@@ -93,15 +90,11 @@ public class FeedbackActivity extends AppCompatActivity {
         }
     }
 
-
-    //TODO: Read string from an ArrayList
-    //TODO: Dynamically add buttons (WeiXuan)
     /* Store the module names in an arraylist.
     Press button, references arraylist according to index
     stores value
     */
 
-    //TODO: Refresh sets the values to be passed over in feedback
     public void refresh(View v) {
         // Instantiate the buttons
         learnObj1 = (Button) findViewById(R.id.learnObj1);
@@ -124,9 +117,11 @@ public class FeedbackActivity extends AppCompatActivity {
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                listOfLessons.remove(s);
+//                listOfLessons.remove(s);
                 String child = dataSnapshot.getKey();
-                listOfLessons.add(child);
+                if (!listOfLessons.contains(child)) {
+                    listOfLessons.add(child);
+                }
             }
 
             @Override
@@ -147,6 +142,8 @@ public class FeedbackActivity extends AppCompatActivity {
 
         });
 
+        /* Updates the display with corresponding info
+         Sends the relevant info over to LearnPaceActivity  */
 
         try {
             learnObj1.setText(listOfLessons.get(0));
@@ -223,6 +220,8 @@ public class FeedbackActivity extends AppCompatActivity {
         for (int i=0; i<listOfLessons.size(); i++){
             Toast.makeText(FeedbackActivity.this, listOfLessons.get(i), Toast.LENGTH_SHORT).show();
         }
+
+
     }
 
 }
