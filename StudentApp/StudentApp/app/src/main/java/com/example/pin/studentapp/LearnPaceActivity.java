@@ -76,12 +76,6 @@ public class LearnPaceActivity extends AppCompatActivity {
 
     public void sendInfo(View v) {
 
-        // Check if feedback has already been sent
-        if (oncePerSession == 1) {
-            Toast.makeText(LearnPaceActivity.this,
-                    "Feedback already submitted", Toast.LENGTH_LONG).show();
-        }
-
         radioGroup = (RadioGroup) findViewById(R.id.RadioGroup);
         submit = (Button) findViewById(R.id.submit);
         clarification = (EditText) findViewById(R.id.editText_clarification);
@@ -91,8 +85,7 @@ public class LearnPaceActivity extends AppCompatActivity {
         DatabaseReference databaseRef = database.getReference("Module Password");
 
         final String pwString = password.getText().toString();
-        if (oncePerSession == null) {
-            oncePerSession += 1;
+
 
             databaseRef.addValueEventListener(new ValueEventListener() {
                 @Override
@@ -157,7 +150,7 @@ public class LearnPaceActivity extends AppCompatActivity {
             });
 
         }
-    }
+
 
     /* This method utilizes string concat to define the getReference
      location in order to update feedback to the correct location */

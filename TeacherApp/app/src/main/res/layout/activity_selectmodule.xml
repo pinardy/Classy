@@ -9,24 +9,23 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="65dp"
+        android:layout_marginTop="58dp"
         android:id="@+id/button50001" />
-
-    <Button
-        android:text="50.004"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="45dp"
-        android:id="@+id/button50004"
-        android:layout_below="@+id/button50002"
-        android:layout_alignStart="@+id/button50002" />
 
     <Button
         android:text="50.002"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="39dp"
         android:id="@+id/button50002"
         android:layout_below="@+id/button50001"
         android:layout_alignStart="@+id/button50001" />
+
+    <Button
+        android:text="50.004"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button50004"
+        android:layout_centerVertical="true"
+        android:layout_alignStart="@+id/button50002" />
 </RelativeLayout>
