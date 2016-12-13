@@ -38,28 +38,14 @@ public class LearnPaceActivity extends AppCompatActivity {
     String pwFromFirebase;
     ArrayList<String> listOfLessons;
     Integer lessonIndex;
-
-    /**  We want to store the counts and send it over to the teacher app
-     * count1: too fast
-     * count2: fast
-     * count3: good pace
-     * count4: slow
-     * count5: too slow
-     */
+    TextView textViewLesson;
+    Integer oncePerSession;
 
     Firebase myFirebaseRef;
     Firebase myFirebaseRefClarify;
     Firebase ref;
     FirebaseDatabase database;
 
-    Integer studentCount = 0;
-    Integer count1 = 0;
-    Integer count2 = 0;
-    Integer count3 = 0;
-    Integer count4 = 0;
-    Integer count5 = 0;
-
-    TextView textViewLesson;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,14 +69,19 @@ public class LearnPaceActivity extends AppCompatActivity {
         myFirebaseRefClarify = new Firebase("https://student-app-23e7b.firebaseio.com/").child(listOfLessons.get(lessonIndex)).child("Clarification");
 
 
-//        final DatabaseReference databaseRef50001 = database.getReference("50001");
         ref = new Firebase("https://student-app-23e7b.firebaseio.com/").child("50001").child(listOfLessons.get(lessonIndex)).child("Feedback data");
     }
 
     //TODO: Allow for only one feedback per session
-    //TODO: Ensure that each session adds onto current data (not start over) (Use Transaction to increment count)
 
-    public void sendInfo(View v){
+    public void sendInfo(View v) {
+
+        // Check if feedback has already been sent
+        if (oncePerSession == 1) {
+            Toast.makeText(LearnPaceActivity.this,
+                    "Feedback already submitted", Toast.LENGTH_LONG).show();
+        }
+
         radioGroup = (RadioGroup) findViewById(R.id.RadioGroup);
         submit = (Button) findViewById(R.id.submit);
         clarification = (EditText) findViewById(R.id.editText_clarification);
@@ -100,97 +91,87 @@ public class LearnPaceActivity extends AppCompatActivity {
         DatabaseReference databaseRef = database.getReference("Module Password");
 
         final String pwString = password.getText().toString();
-        databaseRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // Obtain password from firebase
-                pwFromFirebase = dataSnapshot.getValue(String.class);
-                if (Objects.equals(pwString, pwFromFirebase)) {
+        if (oncePerSession == null) {
+            oncePerSession += 1;
 
-                    final HashMap<String, String> data = new HashMap<>();
+            databaseRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    // Obtain password from firebase
+                    pwFromFirebase = dataSnapshot.getValue(String.class);
+                    if (Objects.equals(pwString, pwFromFirebase)) {
 
-                    try {
-                        String moduleName = listOfLessons.get(lessonIndex);
+                        final HashMap<String, String> data = new HashMap<>();
 
-                        // Get selected Radio Button
-                        RadioButton selectRadio = (RadioButton) findViewById(radioGroup.getCheckedRadioButtonId());
+                        try {
+                            String moduleName = listOfLessons.get(lessonIndex);
 
-                        // Find out the option and add to counter
-                        String option = selectRadio.getText().toString();
+                            // Get selected Radio Button
+                            RadioButton selectRadio = (RadioButton) findViewById(radioGroup.getCheckedRadioButtonId());
 
-                        // Increment count of student's feedback
-//                        studentCount += 1;
-                        updateFeedback(moduleName, "Student count");
+                            // Find out the option and add to counter
+                            String option = selectRadio.getText().toString();
 
-                        if (option.equals("The lesson is too fast")) {
-//                            count1 += 1;
-                            updateFeedback(moduleName, "Too fast");
+                            // Increment count of student's feedback
+                            updateFeedback(moduleName, "Student count");
+
+                            if (option.equals("The lesson is too fast")) {
+                                updateFeedback(moduleName, "Too fast");
+                            }
+                            if (option.equals("The lesson is fast")) {
+                                updateFeedback(moduleName, "Fast");
+                            }
+                            if (option.equals("The lesson is at a good pace")) {
+                                updateFeedback(moduleName, "Good pace");
+                            }
+                            if (option.equals("The lesson is slow")) {
+                                updateFeedback(moduleName, "Slow");
+                            }
+                            if (option.equals("The lesson is too slow")) {
+                                updateFeedback(moduleName, "Too slow");
+                            }
+
+                            String clarify = clarification.getText().toString();
+                            myFirebaseRefClarify.setValue(clarify);
+
+
+                            Toast.makeText(LearnPaceActivity.this,
+                                    "Feedback sent", Toast.LENGTH_LONG).show();
+
+                        } catch (Exception e) {
+                            Toast.makeText(LearnPaceActivity.this,
+                                    "No option selected", Toast.LENGTH_LONG).show();
                         }
-                        if (option.equals("The lesson is fast")) {
-//                            count2 += 1;
-                            updateFeedback(moduleName, "Fast");
-                        }
-                        if (option.equals("The lesson is at a good pace")) {
-//                            count3 += 1;
-                            updateFeedback(moduleName, "Good pace");
-                        }
-                        if (option.equals("The lesson is slow")) {
-//                            count4 += 1;
-                            updateFeedback(moduleName, "Slow");
-                        }
-                        if (option.equals("The lesson is too slow")) {
-//                            count5 += 1;
-                            updateFeedback(moduleName, "Too slow");
-                        }
 
-                        //TODO: Send clarification to firebase
-                        String clarify = clarification.getText().toString();
-                        myFirebaseRefClarify.push();
-
-//                        data.put("Student count", studentCount.toString());
-//
-//                        data.put("Too fast", count1.toString());
-//                        data.put("Fast", count2.toString());
-//                        data.put("Good pace", count3.toString());
-//                        data.put("Slow", count4.toString());
-//                        data.put("Too slow", count5.toString());
-
-//                        myFirebaseRef.setValue(data);
-//                        ref.setValue(data);
-
-                        Firebase clarifyRef = ref.push();
-                        clarifyRef.setValue(clarify);
-
-
+                    } else {
                         Toast.makeText(LearnPaceActivity.this,
-                                "Feedback sent", Toast.LENGTH_LONG).show();
-
-                    } catch (Exception e) {
-                        Toast.makeText(LearnPaceActivity.this,
-                                "No option selected", Toast.LENGTH_LONG).show();
+                                "Invalid password", Toast.LENGTH_LONG).show();
                     }
-
-                } else {
-                    Toast.makeText(LearnPaceActivity.this,
-                            "Invalid password", Toast.LENGTH_LONG).show();
                 }
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(LearnPaceActivity.this,
-                        "oncancelled", Toast.LENGTH_LONG).show();
-            }
-        });
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    Toast.makeText(LearnPaceActivity.this,
+                            "onCancelled", Toast.LENGTH_LONG).show();
+                }
+            });
 
+        }
     }
+
+    /* This method utilizes string concat to define the getReference
+     location in order to update feedback to the correct location */
 
     public void updateFeedback(String moduleName, String feedback){
 
+        // String concat to def reference location
         String refLocation = "50001/" + moduleName + "/Feedback data/" + feedback;
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference ref = database.getReference(refLocation);
+
+        /* We run transaction to allow multiple users to interact with the app
+        so that data will be updated, not replaced. */
 
         ref.runTransaction(new Transaction.Handler() {
             @Override
@@ -200,52 +181,16 @@ public class LearnPaceActivity extends AppCompatActivity {
                 } else {
                     currentData.setValue((Long) currentData.getValue() + 1);
                 }
-
                 return Transaction.success(currentData); //we can also abort by calling Transaction.abort()
             }
 
             @Override
             public void onComplete(DatabaseError databaseError, boolean b,
                                    DataSnapshot dataSnapshot) {
-                Toast.makeText(LearnPaceActivity.this,
-                        "Completed!", Toast.LENGTH_LONG).show();
+//                Toast.makeText(LearnPaceActivity.this,
+//                        "Completed!", Toast.LENGTH_LONG).show();
             }
-
         });
     }
-
-
-
-
-
-
-//    Function to update feedback firebase
-    public void push(View v){
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        final DatabaseReference ref = database.getReference("50001/Design/Feedback data");
-        DatabaseReference child = ref.child("Fast");
-
-        child.runTransaction(new Transaction.Handler() {
-            @Override
-            public Transaction.Result doTransaction(MutableData currentData) {
-                if(currentData.getValue() == null) {
-                    currentData.setValue(1);
-                } else {
-                    currentData.setValue((Long) currentData.getValue() + 1);
-                }
-
-                return Transaction.success(currentData); //we can also abort by calling Transaction.abort()
-            }
-
-            @Override
-            public void onComplete(DatabaseError databaseError, boolean b,
-                                   DataSnapshot dataSnapshot) {
-                Toast.makeText(LearnPaceActivity.this,
-                        "Completed!", Toast.LENGTH_LONG).show();
-            }
-
-        });
-    }
-
 
 }

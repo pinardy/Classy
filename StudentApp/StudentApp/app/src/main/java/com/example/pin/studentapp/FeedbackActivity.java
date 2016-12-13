@@ -2,8 +2,6 @@ package com.example.pin.studentapp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -30,7 +28,11 @@ public class FeedbackActivity extends AppCompatActivity {
     ArrayList<String> listOfLessons;
     Integer lessonIndex;
     Intent lesson;
+    String module;
+    TextView moduleName;
 
+    //TODO: Prof app: reset data
+    //TODO: 50.002 and 50.004
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +40,11 @@ public class FeedbackActivity extends AppCompatActivity {
         setContentView(R.layout.activity_feedback);
         database = FirebaseDatabase.getInstance();
 
+        //Extract data from MainActivity
+        module = getIntent().getExtras().getString("Module");
+
+        moduleName = (TextView) findViewById(R.id.moduleName);
+        moduleName.setText(module);
 
         listOfLessons = new ArrayList<>();
 
@@ -45,10 +52,10 @@ public class FeedbackActivity extends AppCompatActivity {
         //This must happen before any firebase app ref is created or used
         Firebase.setAndroidContext(this);
 
-        final DatabaseReference databaseRef50001 = database.getReference("50001");
+        final DatabaseReference databaseRef = database.getReference(module);
 
 
-        databaseRef50001.addChildEventListener(new ChildEventListener() {
+        databaseRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
                 String child = dataSnapshot.getKey();
@@ -58,7 +65,6 @@ public class FeedbackActivity extends AppCompatActivity {
                     listOfLessons.add(child);
 //                    Toast.makeText(FeedbackActivity.this, child, Toast.LENGTH_SHORT).show();
                 }
-//                Toast.makeText(FeedbackActivity.this, child, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -80,15 +86,6 @@ public class FeedbackActivity extends AppCompatActivity {
         });
     }
 
-    public void feedback(View v) {
-        try {
-            startActivity(lesson);
-        }
-        catch (Exception e){
-            Intent i = new Intent(FeedbackActivity.this, LearnPaceActivity.class);
-            startActivity(i);
-        }
-    }
 
     /* Store the module names in an arraylist.
     Press button, references arraylist according to index
@@ -102,7 +99,7 @@ public class FeedbackActivity extends AppCompatActivity {
         learnObj3 = (Button) findViewById(R.id.learnObj3);
         learnObj4 = (Button) findViewById(R.id.learnObj4);
 
-        final DatabaseReference databaseRef50001 = database.getReference("50001");
+        final DatabaseReference databaseRef50001 = database.getReference(module);
 
         databaseRef50001.addChildEventListener(new ChildEventListener() {
             @Override
@@ -216,12 +213,10 @@ public class FeedbackActivity extends AppCompatActivity {
 
 
     // Test button
-    public void test(View v){
-        for (int i=0; i<listOfLessons.size(); i++){
-            Toast.makeText(FeedbackActivity.this, listOfLessons.get(i), Toast.LENGTH_SHORT).show();
-        }
-
-
-    }
+//    public void test(View v){
+//        for (int i=0; i<listOfLessons.size(); i++){
+//            Toast.makeText(FeedbackActivity.this, listOfLessons.get(i), Toast.LENGTH_SHORT).show();
+//        }
+//    }
 
 }
