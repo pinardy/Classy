@@ -52,12 +52,12 @@ public class LearnPaceActivity extends AppCompatActivity {
     Firebase ref;
     FirebaseDatabase database;
 
-    Integer studentCount;
-    Integer count1;
-    Integer count2;
-    Integer count3;
-    Integer count4;
-    Integer count5;
+    Integer studentCount = 0;
+    Integer count1 = 0;
+    Integer count2 = 0;
+    Integer count3 = 0;
+    Integer count4 = 0;
+    Integer count5 = 0;
 
     TextView textViewLesson;
 
@@ -80,14 +80,15 @@ public class LearnPaceActivity extends AppCompatActivity {
         //This must happen before any firebase app ref is created or used
         Firebase.setAndroidContext(this);
         myFirebaseRef = new Firebase("https://student-app-23e7b.firebaseio.com/").child("Feedback data");
-        myFirebaseRefClarify = new Firebase("https://student-app-23e7b.firebaseio.com/").child("Clarification");
+        myFirebaseRefClarify = new Firebase("https://student-app-23e7b.firebaseio.com/").child(listOfLessons.get(lessonIndex)).child("Clarification");
+
 
 //        final DatabaseReference databaseRef50001 = database.getReference("50001");
         ref = new Firebase("https://student-app-23e7b.firebaseio.com/").child("50001").child(listOfLessons.get(lessonIndex)).child("Feedback data");
     }
 
     //TODO: Allow for only one feedback per session
-    //TODO: Ensure that each session adds onto current data (not start over) (Use Sidney's method to increment count)
+    //TODO: Ensure that each session adds onto current data (not start over) (Use Transaction to increment count)
 
     public void sendInfo(View v){
         radioGroup = (RadioGroup) findViewById(R.id.RadioGroup);
@@ -109,6 +110,8 @@ public class LearnPaceActivity extends AppCompatActivity {
                     final HashMap<String, String> data = new HashMap<>();
 
                     try {
+                        String moduleName = listOfLessons.get(lessonIndex);
+
                         // Get selected Radio Button
                         RadioButton selectRadio = (RadioButton) findViewById(radioGroup.getCheckedRadioButtonId());
 
@@ -116,37 +119,48 @@ public class LearnPaceActivity extends AppCompatActivity {
                         String option = selectRadio.getText().toString();
 
                         // Increment count of student's feedback
-                        studentCount += 1;
+//                        studentCount += 1;
+                        updateFeedback(moduleName, "Student count");
 
                         if (option.equals("The lesson is too fast")) {
-                            count1 += 1;
+//                            count1 += 1;
+                            updateFeedback(moduleName, "Too fast");
                         }
                         if (option.equals("The lesson is fast")) {
-                            count2 += 1;
+//                            count2 += 1;
+                            updateFeedback(moduleName, "Fast");
                         }
                         if (option.equals("The lesson is at a good pace")) {
-                            count3 += 1;
+//                            count3 += 1;
+                            updateFeedback(moduleName, "Good pace");
                         }
                         if (option.equals("The lesson is slow")) {
-                            count4 += 1;
+//                            count4 += 1;
+                            updateFeedback(moduleName, "Slow");
                         }
                         if (option.equals("The lesson is too slow")) {
-                            count5 += 1;
+//                            count5 += 1;
+                            updateFeedback(moduleName, "Too slow");
                         }
 
                         //TODO: Send clarification to firebase
                         String clarify = clarification.getText().toString();
                         myFirebaseRefClarify.push();
 
-                        data.put("Student count", studentCount.toString());
+//                        data.put("Student count", studentCount.toString());
+//
+//                        data.put("Too fast", count1.toString());
+//                        data.put("Fast", count2.toString());
+//                        data.put("Good pace", count3.toString());
+//                        data.put("Slow", count4.toString());
+//                        data.put("Too slow", count5.toString());
 
-                        data.put("Too fast", count1.toString());
-                        data.put("Fast", count2.toString());
-                        data.put("Good pace", count3.toString());
-                        data.put("Slow", count4.toString());
-                        data.put("Too slow", count5.toString());
 //                        myFirebaseRef.setValue(data);
-                        ref.setValue(data);
+//                        ref.setValue(data);
+
+                        Firebase clarifyRef = ref.push();
+                        clarifyRef.setValue(clarify);
+
 
                         Toast.makeText(LearnPaceActivity.this,
                                 "Feedback sent", Toast.LENGTH_LONG).show();
@@ -171,36 +185,67 @@ public class LearnPaceActivity extends AppCompatActivity {
 
     }
 
+    public void updateFeedback(String moduleName, String feedback){
 
-    //Function to update feedback firebase
-    public void push(View v){
-//        push = (Button) findViewById(R.id.testButton);
+        String refLocation = "50001/" + moduleName + "/Feedback data/" + feedback;
 
-//        ref = new Firebase("https://student-app-23e7b.firebaseio.com/").child("50001").child(listOfLessons.get(lessonIndex)).child("Feedback data");
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final DatabaseReference ref = database.getReference(refLocation);
 
-        final DatabaseReference ref = database.getReference("50001").child(listOfLessons.get(lessonIndex)).child("Feedback data");
-//        Input parameters: the parent address and the feedback name to be passed as arguments
+        ref.runTransaction(new Transaction.Handler() {
+            @Override
+            public Transaction.Result doTransaction(MutableData currentData) {
+                if(currentData.getValue() == null) {
+                    currentData.setValue(1);
+                } else {
+                    currentData.setValue((Long) currentData.getValue() + 1);
+                }
 
-        Firebase upvotesRef = new Firebase("https://docs-examples.firebaseio.com/android/saving-data/fireblog/posts/-JRHTHaIs-jNPLXOQivY/upvotes");
+                return Transaction.success(currentData); //we can also abort by calling Transaction.abort()
+            }
 
-//        upvotesRef.runTransaction(new Transaction.Handler() {
-//            @Override
-//            public Transaction.Result doTransaction(MutableData currentData) {
-//                if(currentData.getValue() == null) {
-//                    currentData.setValue(1);
-//                } else {
-//                    currentData.setValue((Long) currentData.getValue() + 1);
-//                }
-//
-//                return Transaction.success(currentData); //we can also abort by calling Transaction.abort()
-//            }
-//
-//            @Override
-//            public void onComplete(DatabaseError databaseError, boolean b,
-//                                   DataSnapshot dataSnapshot) {
-//            }
-//
-//        }); 
+            @Override
+            public void onComplete(DatabaseError databaseError, boolean b,
+                                   DataSnapshot dataSnapshot) {
+                Toast.makeText(LearnPaceActivity.this,
+                        "Completed!", Toast.LENGTH_LONG).show();
+            }
+
+        });
     }
+
+
+
+
+
+
+//    Function to update feedback firebase
+    public void push(View v){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final DatabaseReference ref = database.getReference("50001/Design/Feedback data");
+        DatabaseReference child = ref.child("Fast");
+
+        child.runTransaction(new Transaction.Handler() {
+            @Override
+            public Transaction.Result doTransaction(MutableData currentData) {
+                if(currentData.getValue() == null) {
+                    currentData.setValue(1);
+                } else {
+                    currentData.setValue((Long) currentData.getValue() + 1);
+                }
+
+                return Transaction.success(currentData); //we can also abort by calling Transaction.abort()
+            }
+
+            @Override
+            public void onComplete(DatabaseError databaseError, boolean b,
+                                   DataSnapshot dataSnapshot) {
+                Toast.makeText(LearnPaceActivity.this,
+                        "Completed!", Toast.LENGTH_LONG).show();
+            }
+
+        });
+    }
+
 
 }
