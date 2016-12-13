@@ -1,5 +1,6 @@
 package com.example.nguyentrunghuan.a50001_iot;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -44,6 +45,8 @@ public class viewLessonActivity extends AppCompatActivity {
     protected HashMap<String, Integer> datapoints = new HashMap<>();
     protected int sc;
     protected DatabaseReference lessonlevel;
+    String moduleString;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +56,9 @@ public class viewLessonActivity extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
         String lessonName = bundle.getString("data");
+
+        //obtain data from previous activity
+        moduleString = getIntent().getExtras().getString("ModuleViewLesson");
 
         //Declare elements
         final TextView toofast = (TextView) findViewById(R.id.speed_tf);
@@ -66,7 +72,7 @@ public class viewLessonActivity extends AppCompatActivity {
         name.setText(lessonName);
 
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        final DatabaseReference courselevel = database.getReference("50001").getRef();
+        final DatabaseReference courselevel = database.getReference(moduleString).getRef();
         lessonlevel = courselevel.child(lessonName).getRef();
 
         /*** SET PROPERTIES FOR PIECHART ***/
@@ -251,6 +257,7 @@ public class viewLessonActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         //remove lesson
+
         lessonlevel.setValue(null);
         Toast.makeText(getApplicationContext(), "Lesson removed" ,
                 Toast.LENGTH_LONG).show();

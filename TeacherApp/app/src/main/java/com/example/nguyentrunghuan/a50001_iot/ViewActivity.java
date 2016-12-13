@@ -34,6 +34,7 @@ public class ViewActivity extends AppCompatActivity {
 
         //obtain data from previous activity
         moduleString = getIntent().getExtras().getString("Module");
+        bundle.putString("ModuleViewLesson", moduleString);
 
         final ListView listView = (ListView) findViewById(R.id.list);
 
