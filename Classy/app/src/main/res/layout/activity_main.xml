@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="lucis.classy.LoginActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/usp"
+        android:paddingLeft="50dp"
+        android:paddingRight="50dp">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_above="@+id/loginButton"
+            android:id="@+id/loginInfo"
+            android:paddingBottom="10dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textSize="27sp"
+                android:text="Login"
+                android:layout_marginBottom="10dp"
+                android:id="@+id/loginLabel"
+                android:textColor="@color/black"/>
+
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/username"
+                android:ems="10"
+                android:fontFamily="sans-serif"
+                android:cursorVisible="true"
+                android:maxLines="1"
+                android:gravity="center"
+                android:hint="Username here"
+                android:textSize="18sp"
+                android:singleLine="true"/>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/password"
+                android:ems="10"
+                android:fontFamily="sans-serif"
+                android:cursorVisible="true"
+                android:maxLines="1"
+                android:gravity="center"
+                android:hint="Password here"
+                android:textSize="18sp"
+                android:imeOptions="actionSend"
+                android:inputType="textPassword"/>
+
+        </LinearLayout>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Login"
+            android:id="@+id/loginButton"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="69dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            />
+
+        
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true">
+            <ImageView
+                android:layout_width="167dp"
+                android:layout_height="200dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="18dp"
+                android:src="@drawable/logo"
+                android:id="@+id/logo" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
+</RelativeLayout>
