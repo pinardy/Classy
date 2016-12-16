@@ -16,6 +16,23 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
+import com.firebase.client.Firebase;
+import com.google.android.gms.drive.query.Query;
+import com.google.android.gms.fitness.data.DataType;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import static lucis.classy.StringHolder.loginArray;
+
 /**
  * Created by muayanfrost on 13/12/16.
  */
@@ -24,19 +41,24 @@ public class LoginActivity extends AppCompatActivity{
     private EditText username, password;
     boolean doubleBackToExitPressedOnce = false;
 
+    String u, p;
+    boolean pr;
+
+
+
+//    ArrayList<Account> loginArrayList;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        importAccount(); // Imports account for login
 
 
 
 
         username = (EditText) findViewById(R.id.username);
         password = (EditText) findViewById(R.id.password);
-        Button loginButton = (Button) findViewById(R.id.loginButton);
+        final Button loginButton = (Button) findViewById(R.id.loginButton);
 
         // Fixes weird font for the textPassword inputType
         password.setTypeface(Typeface.DEFAULT);
@@ -44,22 +66,37 @@ public class LoginActivity extends AppCompatActivity{
 
 
 
+
+
         loginButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (password.getText().toString().equals("professor") && username.getText().toString().equals("professor1")) {
-                        StringHolder.userHold = username.getText().toString();
-                        nextActivityTeacher();
-                    } else if ((password.getText().toString().equals("student1") && username.getText().toString().equals("1001000")) || (password.getText().toString().equals("student2") && username.getText().toString().equals("1001111"))) {
-                        StringHolder.userHold = username.getText().toString();
-                        nextActivityStudent();
-                    } else {
-                        Context context = getApplicationContext();
-                        CharSequence text = "Wrong username or password!";
-                        int duration = Toast.LENGTH_SHORT;
+                    boolean ggwp = false;
+                    for(int i = 0; i< loginArray.size(); i++) {
+                        if (loginArray.get(i) != null) {
+                            if (password.getText().toString().equals(loginArray.get(i).password) && username.getText().toString().equals(loginArray.get(i).username)) {
+                                if (loginArray.get(i).permission == true) {
+                                    StringHolder.userHold = username.getText().toString();
+                                    nextActivityTeacher();
+                                    ggwp = true;
+                                    break;
+                                } else if (loginArray.get(i).permission == false) {
+                                    StringHolder.userHold = username.getText().toString();
+                                    nextActivityStudent();
+                                    ggwp = true;
+                                    break;
+                                }
+                                }
+                        }
+                    }
 
-                        Toast toast = Toast.makeText(context, text, duration);
-                        toast.show();
+                    if(ggwp==false){
+                            Context context = getApplicationContext();
+                            CharSequence text = "Wrong username or password!";
+                            int duration = Toast.LENGTH_SHORT;
+
+                            Toast toast = Toast.makeText(context, text, duration);
+                            toast.show();
                     }
                 }
             });
@@ -120,9 +157,4 @@ public class LoginActivity extends AppCompatActivity{
         finish();
     }
 
-    // Importing account for login (preferably from firebase)
-    public void importAccount(){
-        Account account1 = new Account("muayan179","muayan115",true);
-        Account account2 = new Account("stupidstudent", "iamstupid", false);
-    }
 }

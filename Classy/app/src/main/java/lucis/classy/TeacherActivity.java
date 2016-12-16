@@ -21,7 +21,7 @@ import android.widget.Toast;
 
 public class TeacherActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    Intent setting;
+    Intent logout;
     Intent secret;
     Intent module;
     Button button50001;
@@ -42,7 +42,7 @@ public class TeacherActivity extends AppCompatActivity
             button50002 = (Button) findViewById(R.id.button50002);
             button50004 = (Button) findViewById(R.id.button50004);
 
-            setting = new Intent(getApplicationContext(), SettingsActivity.class);
+            logout = new Intent(getApplicationContext(), LoginActivity.class);
             secret = new Intent(getApplicationContext(), SecretView.class);
             module = new Intent(getApplicationContext(), ModuleActivity.class);
 
@@ -161,7 +161,8 @@ public class TeacherActivity extends AppCompatActivity
             module.putExtra("Module", "50002");
             startActivity(module);
         } else if (id == R.id.navSettingt) {
-            startActivity(setting);
+            startActivity(logout);
+            finish();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

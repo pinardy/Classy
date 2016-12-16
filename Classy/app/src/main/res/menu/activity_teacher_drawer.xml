@@ -17,8 +17,8 @@
 
         <item
             android:id="@+id/navSettingt"
-            android:icon="@android:drawable/ic_menu_preferences"
-            android:title="Settings" />
+            android:icon="@android:drawable/ic_lock_power_off"
+            android:title="Logout" />
 
     </group>
 
