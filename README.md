@@ -5,7 +5,7 @@ During class, professors have experienced occasions when they ask, “...do you 
 
 <img src="https://github.com/pinardy/IoT-1D/blob/master/Classy/app/src/main/res/drawable/logo.png" width="200" height="200" />
 
-Group members:
+Group members:  
 1) Lim Wei Xuan  
 2) Sidney Suen  
 3) Chrissandro  
