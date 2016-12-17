@@ -86,9 +86,4 @@ public class ViewActivity extends AppCompatActivity {
         });
     }
 
-    public void viewLesson(View v){
-        Intent viewLesson = new Intent(this, viewLessonActivity.class);
-        viewLesson.putExtras(bundle);
-        startActivity(viewLesson);
-    }
 }
