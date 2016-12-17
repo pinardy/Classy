@@ -5,6 +5,8 @@ During class, professors have experienced occasions when they ask, “...do you 
 
 ![alt tag](https://github.com/pinardy/IoT-1D/blob/master/Classy/app/src/main/res/drawable/logo.png =250x250) 
 
+<img src="https://github.com/pinardy/IoT-1D/blob/master/Classy/app/src/main/res/drawable/logo.png" width="200" height="200" />
+
 Group members:
 1) Lim Wei Xuan
 2) Sidney Suen
