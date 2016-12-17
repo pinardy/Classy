@@ -6,11 +6,11 @@ During class, professors have experienced occasions when they ask, “...do you 
 <img src="https://github.com/pinardy/IoT-1D/blob/master/Classy/app/src/main/res/drawable/logo.png" width="200" height="200" />
 
 Group members:
-1) Lim Wei Xuan__
-2) Sidney Suen__
-3) Chrissandro__
-4) Pinardy Yang__
-5) Bryan Yenata__
+1) Lim Wei Xuan  
+2) Sidney Suen  
+3) Chrissandro  
+4) Pinardy Yang  
+5) Bryan Yenata  
 6) Nguyen Trung Huan
 
 
