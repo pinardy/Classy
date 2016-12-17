@@ -11,6 +11,6 @@ Group members:
 3) Chrissandro
 4) Pinardy Yang
 5) Bryan Yenata
-6) Huan
+6) Nguyen Trung Huan
 
 
