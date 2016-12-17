@@ -40,9 +40,6 @@ public class MainActivity extends AppCompatActivity {
 
         DatabaseReference loginReference = database.getReference("Login").getRef();
 
-//        DatabaseReference usernameReference = loginReference.child("Username").getRef();
-//        DatabaseReference passwordReference = loginReference.child("Password").getRef();
-//        DatabaseReference permissionReference = loginReference.child("Permission").getRef();
 
 
 
@@ -83,31 +80,4 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        Intent intent = new Intent(this, LoginActivity.class);
-//        startActivity(intent);
-//        finish();
-//    }
-
-
-    //    @Override
-//    public void onWindowFocusChanged(boolean hasFocus) {
-//        super.onWindowFocusChanged(hasFocus);
-//        Intent intent = new Intent(this, LoginActivity.class);
-//        if(hasFocus) {
-//            startActivity(intent);
-//            finish();
-//        }
-//    }
-
-//        @Override
-//    public void onWindowFocusChanged(boolean hasFocus) {
-//        ImageView startPoint = (ImageView) findViewById(R.id.myanimation);
-//        AnimationDrawable frameAnimation = ((AnimationDrawable) startPoint.getDrawable());
-//        if(hasFocus){
-//            frameAnimation.start();
-//        }
-//    }
 }

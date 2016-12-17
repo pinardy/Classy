@@ -39,7 +39,6 @@ public class LearnPaceActivity extends AppCompatActivity {
     ArrayList<String> listOfLessons;
     Integer lessonIndex;
     TextView textViewLesson;
-    Integer oncePerSession;
 
     Firebase myFirebaseRef;
     Firebase myFirebaseRefClarify;
@@ -72,7 +71,6 @@ public class LearnPaceActivity extends AppCompatActivity {
         ref = new Firebase("https://student-app-23e7b.firebaseio.com/").child("50001").child(listOfLessons.get(lessonIndex)).child("Feedback data");
     }
 
-    //TODO: Allow for only one feedback per session
 
     public void sendInfo(View v) {
 

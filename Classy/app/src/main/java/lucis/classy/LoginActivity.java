@@ -41,20 +41,11 @@ public class LoginActivity extends AppCompatActivity{
     private EditText username, password;
     boolean doubleBackToExitPressedOnce = false;
 
-    String u, p;
-    boolean pr;
-
-
-
-//    ArrayList<Account> loginArrayList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
-
 
         username = (EditText) findViewById(R.id.username);
         password = (EditText) findViewById(R.id.password);
@@ -71,26 +62,26 @@ public class LoginActivity extends AppCompatActivity{
         loginButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    boolean ggwp = false;
+                    boolean permission = false;
                     for(int i = 0; i< loginArray.size(); i++) {
                         if (loginArray.get(i) != null) {
                             if (password.getText().toString().equals(loginArray.get(i).password) && username.getText().toString().equals(loginArray.get(i).username)) {
                                 if (loginArray.get(i).permission == true) {
                                     StringHolder.userHold = username.getText().toString();
                                     nextActivityTeacher();
-                                    ggwp = true;
+                                    permission = true;
                                     break;
                                 } else if (loginArray.get(i).permission == false) {
                                     StringHolder.userHold = username.getText().toString();
                                     nextActivityStudent();
-                                    ggwp = true;
+                                    permission = true;
                                     break;
                                 }
                                 }
                         }
                     }
 
-                    if(ggwp==false){
+                    if(permission==false){
                             Context context = getApplicationContext();
                             CharSequence text = "Wrong username or password!";
                             int duration = Toast.LENGTH_SHORT;
@@ -101,26 +92,6 @@ public class LoginActivity extends AppCompatActivity{
                 }
             });
 
-
-
-
-
-
-//        password.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-//            @Override
-//            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
-//                if(actionId == EditorInfo.IME_ACTION_SEARCH ||
-//                        actionId == EditorInfo.IME_ACTION_DONE ||
-//                        actionId == EditorInfo.IME_ACTION_GO ||
-//                        actionId == EditorInfo.IME_ACTION_NEXT ||
-//                        keyEvent.getAction() == KeyEvent.ACTION_DOWN
-//                        && keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER){
-//                    nextActivity();
-//                    return true;
-//                }
-//                return false;
-//            }
-//        });
     }
 
 

@@ -48,12 +48,10 @@ public class ModuleActivity extends AppCompatActivity{
     }
 
     public void createClass(View v){
-//        Intent createClass = new Intent(this, CreateActivity.class);
         startActivity(moduleCreate);
     }
 
     public void viewClass(View v){
-//        Intent viewClass = new Intent(this, ViewActivity.class);
         startActivity(moduleView);
     }
 

@@ -74,19 +74,7 @@ public class ViewActivity extends AppCompatActivity {
                 Log.w("TAG: ", "Failed to read value.", databaseError.toException());
             }
         });
-        /*
-        courselevel.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                String value = dataSnapshot.getKey();
-                adapter.add(value);
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.w("TAG: ", "Failed to read value.", databaseError.toException());
-            }
-        });*/
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 bundle.putString("data", parent.getItemAtPosition(position).toString());

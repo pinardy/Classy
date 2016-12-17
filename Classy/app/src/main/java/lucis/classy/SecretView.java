@@ -6,6 +6,10 @@ import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+
+/** This activity is an easter egg in our app
+ */
+
 public class SecretView extends AppCompatActivity {
 
     private WebView wv1;

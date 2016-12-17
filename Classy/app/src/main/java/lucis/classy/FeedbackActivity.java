@@ -39,12 +39,7 @@ public class FeedbackActivity extends AppCompatActivity {
     Intent lesson;
     String module;
     TextView moduleName;
-    ListView listView;
-    ArrayAdapter adapter;
-    String[] holder;
 
-    //TODO: Prof app: reset data
-    //TODO: 50.002 and 50.004
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,9 +100,6 @@ public class FeedbackActivity extends AppCompatActivity {
             }
         });
 
-//        adapter = new ArrayAdapter<String>(this, R.layout.activity_listviewfeedback, listOfLessons);
-//        listView = (ListView) findViewById(R.id.learnObj);
-//        listView.setAdapter(adapter);
     }
 
 
@@ -138,7 +130,6 @@ public class FeedbackActivity extends AppCompatActivity {
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-//                listOfLessons.remove(s);
                 String child = dataSnapshot.getKey();
                 if (!listOfLessons.contains(child)) {
                     listOfLessons.add(child);
@@ -147,7 +138,6 @@ public class FeedbackActivity extends AppCompatActivity {
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-//                Toast.makeText(FeedbackActivity.this, "child removed", Toast.LENGTH_SHORT).show();
                 String child = dataSnapshot.getKey();
                 listOfLessons.remove(child);
             }
@@ -163,22 +153,6 @@ public class FeedbackActivity extends AppCompatActivity {
 
         });
 
-        /* Updates the display with corresponding info
-         Sends the relevant info over to LearnPaceActivity  */
-
-//        try {
-//            adapter.clear();
-//            adapter.add(listOfLessons);
-//            adapter.notifyDataSetChanged();
-//
-//            listView.setAdapter(adapter);
-//
-//            lesson = new Intent(getApplicationContext(), LearnPaceActivity.class);
-//
-//            Log.d("Feedback",listOfLessons.toString());
-//        } catch (Exception e){
-//            Toast.makeText(this, "ERROR", Toast.LENGTH_SHORT).show();
-//        }
 
         try {
             learnObj1.setText(listOfLessons.get(0));
@@ -249,12 +223,5 @@ public class FeedbackActivity extends AppCompatActivity {
 
     }
 
-
-    // Test button
-//    public void test(View v){
-//        for (int i=0; i<listOfLessons.size(); i++){
-//            Toast.makeText(FeedbackActivity.this, listOfLessons.get(i), Toast.LENGTH_SHORT).show();
-//        }
-//    }
 
 }

@@ -20,6 +20,11 @@ import com.google.firebase.database.ValueEventListener;
  * Created by Nguyen Trung Huan on 12/10/2016.
  */
 
+
+/** This CreateActivity is for the user (professor) to create new
+ * lessons under his/her module
+ */
+
 public class CreateActivity extends AppCompatActivity{
 
     String moduleString;
@@ -55,6 +60,8 @@ public class CreateActivity extends AppCompatActivity{
                 String name = nameField.getText().toString();
                 String keywords = keywordsField.getText().toString();
                 try {
+                    Toast.makeText(getApplicationContext(), "Lesson created", Toast.LENGTH_SHORT).show();
+
                     FirebaseDatabase database = FirebaseDatabase.getInstance();
                     DatabaseReference courselevel = database.getReference(moduleString);
 
